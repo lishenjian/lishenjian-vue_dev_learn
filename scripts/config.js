@@ -264,6 +264,7 @@ function genConfig (name) {
 }
 
 if (process.env.TARGET) {
+  // genConfig() 执行返回对应配置
   module.exports = genConfig(process.env.TARGET)
 } else {
   exports.getBuild = genConfig

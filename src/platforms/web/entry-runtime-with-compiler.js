@@ -14,14 +14,17 @@ const idToTemplate = cached(id => {
   return el && el.innerHTML
 })
 
+//转存 $mount
 const mount = Vue.prototype.$mount
+
+// 扩展装载方法
 Vue.prototype.$mount = function (
   el?: string | Element,
   hydrating?: boolean
 ): Component {
   el = el && query(el)
 
-  /* istanbul ignore if */
+  /* istanbul ignore if el 不能挂载在 body 和 html 上 */
   if (el === document.body || el === document.documentElement) {
     process.env.NODE_ENV !== 'production' && warn(
       `Do not mount Vue to <html> or <body> - mount to normal elements instead.`
@@ -61,7 +64,7 @@ Vue.prototype.$mount = function (
       if (process.env.NODE_ENV !== 'production' && config.performance && mark) {
         mark('compile')
       }
-
+      // 如果未定义 render 方法，则将 template/el 编译成 render 方法
       const { render, staticRenderFns } = compileToFunctions(template, {
         outputSourceRange: process.env.NODE_ENV !== 'production',
         shouldDecodeNewlines,
